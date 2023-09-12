@@ -16,15 +16,32 @@ class Comments
     #[ORM\Column]
     private ?int $figure_id = null;
 
-    #[ORM\Column]
-    private ?int $user_id = null;
+
+
+
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(name: "user_id", referencedColumnName: "id")]
+    private User $user;
 
     #[ORM\Column(length: 255)]
     private ?string $content = null;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $created_at = null;
+    #[ORM\ManyToOne(targetEntity: Figures::class, inversedBy: 'comments')]
+    #[ORM\JoinColumn(name: 'figure_id', referencedColumnName: 'id')]
+    private Figures $figure;
 
+    public function getFigure(): Figures
+    {
+        return $this->figure;
+    }
+
+    public function setFigure(Figures $figure): self
+    {
+        $this->figure = $figure;
+        return $this;
+    }
     public function getId(): ?int
     {
         return $this->id;
@@ -74,6 +91,17 @@ class Comments
     public function setCreatedAt(\DateTimeImmutable $created_at): static
     {
         $this->created_at = $created_at;
+
+        return $this;
+    }
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }

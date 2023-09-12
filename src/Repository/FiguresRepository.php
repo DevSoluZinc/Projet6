@@ -20,7 +20,23 @@ class FiguresRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Figures::class);
     }
+    public function findLatestFigures(int $limit): array
+    {
+        return $this->createQueryBuilder('f')
+            ->orderBy('f.createdAt', 'DESC')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
 
+    public function findFigureById(int $id): ?Figures
+    {
+        return $this->createQueryBuilder('f')
+            ->andWhere('f.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 //    /**
 //     * @return Figures[] Returns an array of Figures objects
 //     */

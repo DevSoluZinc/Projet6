@@ -1,0 +1,115 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ figure.name }}{% endblock %}
+
+{% block body %}
+{% for flashMessage in app.flashes('success') %}
+    <div class="alert alert-success">
+        {{ flashMessage }}
+    </div>
+{% endfor %}
+
+{% for flashMessage in app.flashes('error') %}
+    <div class="alert alert-danger">
+        {{ flashMessage }}
+    </div>
+{% endfor %}
+<div class="text-end p-4" style="margin-top:200px">
+                        {% if app.user and app.user.id == figure.userId %}
+                             <a href="{{ path('modifier_figure', {'id': figure.id}) }}" class="btn btn-sm btn-outline-secondary"><i class="fa-solid fa-pen"></i></a>
+                                  <a href="{{ path('supprimer_figure', {'id': figure.id}) }}" class="btn btn-sm btn-outline-secondary">
+    <i class="fa-solid fa-trash"></i>
+</a>
+                        {% endif %}
+                    </div>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="banner">
+                    <img src="{{ asset('uploads/figures/' ~ figure.illustrations[0]) }}" alt="Bannière" class="img-fluid">
+                    <h1 class="banner-title bg-white fw-bold text-align-center">{{ figure.name }}</h1>
+                </div>
+
+<div class="row mt-4 ">
+                    <div class="col">
+                        <div class="image-gallery d-flex flex-row align-items-end">
+    {% for illustration in figure.illustrations %}
+        <a href="{{ asset('uploads/figures/' ~ illustration) }}" data-fancybox="gallery">
+            <img src="{{ asset('uploads/figures/' ~ illustration) }}" alt="Illustration" class="img-thumbnail m-2" width="150" height="150">
+        </a>
+    {% endfor %}
+    
+    {% if figure.movie is defined and figure.movie|length > 0 %}
+        <a href="{{ figure.movie }}" data-fancybox="gallery">
+            <iframe width="150" height="150" src="{{ figure.movie }}" frameborder="0" allowfullscreen></iframe>
+        </a>
+    {% endif %}
+</div>
+                    </div>
+                    </div>
+                <div class="row mt-4">
+                    <div class="col">
+                        <h2>Description</h2>
+                        <p>{{ figure.description }}</p>
+                    </div>
+                
+                </div>
+                </div>
+<div class="row mt-4 " style="place-content: center;">
+                    <div class="col-5 text-center">
+               <span class="badge text-bg-primary">dernière modification : {{ figure.createdAt|date('d/m/Y H:i') }}</span>
+
+                    </div> 
+                    <div class="col-5 text-center">
+<span class="badge text-bg-secondary">{{ groupName }}</span>
+                    </div> 
+                </div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col">
+                        {% if app.user %}
+                            <h2>Laisser un commentaire</h2>
+                            {{ form_start(commentForm) }}
+                            {{ form_row(commentForm.content, { 'attr': {'class': 'form-control'} }) }}
+                            <button type="submit" class="btn btn-primary mt-2">Ajouter le commentaire</button>
+                            {{ form_end(commentForm) }}
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="row mt-4">
+                    <div class="col-md-8">
+                        <h2>Commentaires</h2>
+                        {% for comment in pagination %}
+                            <div class="comment mb-4">
+                                <div class="d-flex align-items-center">
+                                    {% if comment.user.image %}
+                                        <img src="{{ asset(comment.user.image) }}" alt="{{ comment.user.pseudo }}" class="profile-image me-2 img-thumbnail" width="50" height="50">
+                                    {% else %}
+                                        <i class="fa-solid fa-user profile-icon me-2"></i>
+                                    {% endif %}
+                                    <span>{{ comment.user.pseudo }}</span>
+                                </div>
+                                <div class="comment-content">
+                                    <p>{{ comment.content }}</p>
+                                </div>
+                                <div class="comment-date">
+                                    <i class="fa-solid fa-clock me-1"></i>
+                                    {{ comment.createdAt|date('d/m/Y H:i') }}
+                                </div>
+                            </div>
+                            {% if not loop.last %}
+                                <hr class="my-4">
+                            {% endif %}
+                        {% endfor %}
+                        <div class="mt-4">
+                            {{ knp_pagination_render(pagination) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+{% endblock %}
