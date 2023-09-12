@@ -22,10 +22,15 @@ class Users
     #[ORM\Column(length: 255)]
     private ?string $password = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $token = null;
+
     public function getId(): ?int
     {
         return $this->id;
     }
+    
+   
 
     public function getUsername(): ?string
     {
@@ -59,6 +64,18 @@ class Users
     public function setPassword(string $password): static
     {
         $this->password = $password;
+
+        return $this;
+    }
+
+    public function getToken(): ?string
+    {
+        return $this->token;
+    }
+
+    public function setToken(?string $token): self
+    {
+        $this->token = $token;
 
         return $this;
     }
