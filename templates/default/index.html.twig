@@ -22,91 +22,64 @@
         body {
             margin: 0;
         }
-        .sample-header {
-            position: fixed;
-            left: 0;
-            top: 50px;
-            width: 100%;
-            background-image: url("http://webmadewell.com/wp-content/uploads/2018/01/img-bg-sample-parallax-header.jpg");
-            background-position: center;
-            background-size: cover;
-            background-repeat: no-repeat;
-            z-index: -1; /* Mettez l'image d'arrière-plan en arrière-plan */
-        }
-        .sample-header::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            left: 0;
-            background-color: MidnightBlue;
-            opacity: 0.3;
-        }
-        .sample-header-section {
-            position: relative;
-            padding: 15% 0 10%;
-            max-width: 640px;
-            margin-left: auto;
-            margin-right: auto;
-            color: white;
-            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
-            font-family: "Montserrat", sans-serif;
-        }
+        
+
         h1 {
             font-weight: 500;
         }
         h2 {
             font-weight: 400;
         }
-        .sample-section-wrap {
-            position: relative;
-            background-color: white;
-        }
-        .sample-section {
-            position: relative;
-            margin-left: auto;
-            margin-right: auto;
-            padding: 40px;
-        }
+        
     </style>
-    <div class="sample-header">
-        <div class="sample-header-section">
-            <h1>Bienvenue sur SnowTrick</h1>
-            <h2>Le blog spécialisé en figures</h2>
+    <div class="sample-image" style="background-image: url('http://webmadewell.com/wp-content/uploads/2018/01/img-bg-sample-parallax-header.jpg'); background-size: cover; background-position: center; height: 100vh; text-align: center;">
+    <div class="container h-100">
+        <div class="row h-100 align-items-center">
+            <div class="col-md-8 offset-md-2">
+                <h1 class="text-white">Bienvenue sur SnowTrick</h1>
+                <h2 class="text-white">Le blog spécialisé en figures</h2>
+                <a href="#figures-section" class="mt-3"><i class="fa-solid fa-arrow-down fa-3x"style="color:white   "></i></a>
+            </div>
         </div>
     </div>
-    <div class="sample-section-wrap">
-    <div class="sample-section">
-        <div class="sample-section-wrap">
-    <div class="sample-section">
-    <div class="row row-cols-1 row-cols-md-5 g-4 mt-5">
-        {% for figure in latestFigures %}
-            <div class="col">
-                <div class="card m-3">
-                    {% if figure.illustrations is not empty %}
-                        <img src="{{ asset('uploads/figures/' ~ figure.illustrations[0]) }}" class="card-img-top" alt="Illustration">
-                    {% endif %}
-                    <div class="card-body">
-                        <h5><a href="{{ path('app_figure_detail', {'id': figure.id}) }}">{{ figure.name }}</a></h5>
-                        <div class="btn-group">
-                            {% if app.user %}
-                                {% if figure.userId == app.user.id %}
-                                    <a href="{{ path('modifier_figure', {'id': figure.id}) }}" class="btn btn-sm btn-outline-secondary"><i class="fa-solid fa-pen"></i></a>
-                                    <a href="{{ path('supprimer_figure', {'id': figure.id}) }}" class="btn btn-sm btn-outline-secondary"><i class="fa-solid fa-trash"></i></a>
-                                {% endif %}
+</div>
+
+<section id="figures-section" class="sample-section-wrap mt-5" style="background-color: white;">
+<div style="margin-top: 150px; text-align: center;" ><h1>Liste des figures</h1></div>
+    <div class="sample-section" >
+        <div class="container">
+            <div class="row row-cols-1 row-cols-md-5 g-4">
+                {% for figure in latestFigures %}
+                    <div class="col">
+                        <div class="card m-3">
+                            {% if figure.illustrations is not empty %}
+                                <img src="{{ asset('uploads/figures/' ~ figure.illustrations[0]) }}" class="card-img-top" alt="Illustration">
                             {% endif %}
+                            <div class="card-body">
+                                <h5><a href="{{ path('app_figure_detail', {'id': figure.id}) }}">{{ figure.name }}</a></h5>
+                                <div class="btn-group">
+                                    {% if app.user %}
+                                        {% if figure.userId == app.user.id %}
+                                            <a href="{{ path('modifier_figure', {'id': figure.id}) }}" class="btn btn-sm btn-outline-secondary"><i class="fa-solid fa-pen"></i></a>
+                                            <a href="{{ path('supprimer_figure', {'id': figure.id}) }}" class="btn btn-sm btn-outline-secondary"><i class="fa-solid fa-trash"></i></a>
+                                        {% endif %}
+                                    {% endif %}
+                                </div>
+                            </div>
                         </div>
                     </div>
+                    {% if loop.index % 5 == 0 %}
                 </div>
+                <div class="row row-cols-1 row-cols-md-5 g-4">
+                    {% endif %}
+                {% endfor %}
             </div>
-            {% if loop.index % 5 == 0 %}
-        </div><div class="row row-cols-1 row-cols-md-5 g-4">
-            {% endif %}
-        {% endfor %}
+        </div>
     </div>
-</div>
-</div>
+</section>
+
+
+
 
     </div>
 </div>

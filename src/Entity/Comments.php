@@ -36,7 +36,6 @@ class Comments
     {
         return $this->figure;
     }
-
     public function setFigure(Figures $figure): self
     {
         $this->figure = $figure;

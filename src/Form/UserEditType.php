@@ -16,7 +16,7 @@ class UserEditType extends AbstractType
                 'type' => PasswordType::class,
                 'invalid_message' => 'Les champs du mot de passe doivent correspondre.',
                 'options' => ['attr' => ['class' => 'password-field']],
-                'required' => false, // Laisser vide pour ne pas forcer le changement de mot de passe
+                'required' => false, 
             ])
             ->add('image', FileType::class, [
                 'label' => 'Image de profil',

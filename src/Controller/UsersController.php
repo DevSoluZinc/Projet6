@@ -49,7 +49,7 @@ class UsersController extends AbstractController
                 $user->setPassword($hashedPassword);
             }
 
-            // Gérer le téléchargement et la mise à jour de l'image ici
+            // Gére le téléchargement et la mise à jour de l'image ici
             $uploadedImage = $request->files->get('image');
             if ($uploadedImage instanceof UploadedFile) {
                 $newFilename = $user->getPseudo() . '-' . uniqid() . '.' . $uploadedImage->guessExtension();
@@ -58,7 +58,7 @@ class UsersController extends AbstractController
                     $newFilename
                 );
 
-                // Mettre à jour le chemin de l'image de l'utilisateur
+                // Met à jour le chemin de l'image de l'utilisateur
                 $user->setImage('User/' . $newFilename);
             }
 

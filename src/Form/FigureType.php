@@ -32,8 +32,6 @@ class FigureType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            // Spécifiez ici l'entité associée au formulaire
-            // Par exemple, 'data_class' => Figures::class,
         ]);
     }
 }

@@ -35,7 +35,6 @@ class Figures
     #[ORM\Column]
     private ?int $user_id = null;
 
-
     #[ORM\Column]
     private ?int $Group_id = null;
 

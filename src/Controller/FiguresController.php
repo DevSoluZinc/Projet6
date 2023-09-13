@@ -27,16 +27,16 @@ class FiguresController extends AbstractController
         ]);
     }
 
-    #[Route('/figure/{id}', name: 'app_figure_detail')]
+    #[Route('/figure/{slug}', name: 'app_figure_detail')]
 public function show(int $id, FiguresRepository $figuresRepository, Request $request, EntityManagerInterface $entityManager, PaginatorInterface $paginator): Response
 {
-    $figure = $figuresRepository->findFigureById($id);
+    $figure = $figuresRepository->findFigureById($slug);
 
     if (!$figure) {
         throw $this->createNotFoundException('Figure not found');
     }
 
-    // Récupérer le nom du groupe correspondant à figure.GroupId
+    // Récupére le nom du groupe correspondant à figure.GroupId
     $groupName = '';
     $group = $entityManager->getRepository(Group::class)->find($figure->getGroupId());
     if ($group) {
@@ -96,7 +96,7 @@ public function addFigure(Request $request, EntityManagerInterface $entityManage
             $isFormValid = false;
         }
 
-        // Vérification de l'unicité du nom (vous devez ajuster cette partie en fonction de votre logique)
+        // Vérification de l'unicité du nom
         $existingFigure = $entityManager->getRepository(Figures::class)->findOneBy(['name' => $name]);
         if ($existingFigure) {
             $this->addFlash('danger', 'Le nom de la figure existe déjà.');
@@ -114,6 +114,7 @@ public function addFigure(Request $request, EntityManagerInterface $entityManage
 
             $illustrations = $request->files->get('illustrations');
 
+            // Traitement des images
             if ($illustrations) {
                 foreach ($illustrations as $illustration) {
                     if ($illustration instanceof UploadedFile) {
